@@ -1,6 +1,10 @@
 use std::time::Duration;
 
 mod calculator;
+mod method_receiver_syntax;
+use method_receiver_syntax::CarRace;
+mod trait_impl;
+use trait_impl::{Dog, Pet};
 
 // Tuple Structs
 struct Point(i32, i32);
@@ -78,4 +82,16 @@ fn main()
     };
 
     println!("{}", calculator::eval(complex_expression));
+
+    let mut race = CarRace::new("Grand Prix");
+    race.add_lap(70);
+    race.add_lap(68);
+    race.print_laps();
+    race.add_lap(71);
+    race.print_laps();
+    race.finish();
+
+    let fido = Dog {name: String::from("Fido"), age: 3};
+    fido.greet();
+    
 }
