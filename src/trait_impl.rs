@@ -2,7 +2,7 @@ trait Animal {
     fn leg_count(&self) -> u32;
 }
 
-pub(crate) trait Pet: Animal {
+pub trait Pet: Animal {
     fn name(&self) -> String;
     fn talk(&self) -> String;
 
@@ -11,9 +11,9 @@ pub(crate) trait Pet: Animal {
     }
 }
 
-pub(crate) struct Dog {
-    pub(crate) name: String,
-    pub(crate) age: i8,
+pub struct Dog {
+    pub name: String,
+    pub age: i8,
 }
 
 impl Animal for Dog {

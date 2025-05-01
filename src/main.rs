@@ -1,9 +1,14 @@
+use std::result;
 use std::time::Duration;
 
 mod calculator;
 mod method_receiver_syntax;
 use method_receiver_syntax::CarRace;
 mod trait_impl;
+mod loops;
+mod ownership;
+mod slices;
+
 use trait_impl::{Dog, Pet};
 
 // Tuple Structs
@@ -93,5 +98,17 @@ fn main()
 
     let fido = Dog {name: String::from("Fido"), age: 3};
     fido.greet();
-    
+
+    loops::break_returns_value();
+    loops::loop_with_goto();
+    loops::for_loop();
+
+    ownership::ownership_with_string();
+    ownership::ownership_with_methods();
+    ownership::ownership_with_returning();
+    ownership::ownership_reference();
+
+    let mut slicing_string = String::from("Hello, world!");
+    let word = slices::first_word(&slicing_string);
+    slicing_string.clear();
 }

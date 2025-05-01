@@ -1,6 +1,6 @@
 /// An operation to perform on two subexpressions.
 #[derive(Debug)]
-pub(crate) enum Operation
+pub enum Operation
 {
     Add,
     Sub,
@@ -10,7 +10,7 @@ pub(crate) enum Operation
 
 /// An expression, in tree form.
 #[derive(Debug)]
-pub(crate) enum Expression
+pub enum Expression
 {
     /// An operation on two subexpressions.
     Op { op: Operation, left: Box<Expression>, right: Box<Expression> },
@@ -19,7 +19,7 @@ pub(crate) enum Expression
     Value(i64),
 }
 
-pub(crate) fn eval(e: Expression) -> i64
+pub fn eval(e: Expression) -> i64
 {
     match e
     {
