@@ -1,8 +1,7 @@
-use std::result;
 use std::time::Duration;
 mod calculator;
 mod method_receiver_syntax;
-use method_receiver_syntax::CarRace;
+use method_receiver_syntax::*; // The Glob Operator
 mod trait_impl;
 mod loops;
 mod ownership;
@@ -10,8 +9,9 @@ mod slices;
 mod structures;
 mod guessing_game;
 mod variables;
-
+mod enumerations;
 use trait_impl::{Dog, Pet};
+use crate::enumerations::{IpAddress, Message};
 use crate::structures::Rectangle;
 
 // Tuple Structs
@@ -125,4 +125,28 @@ fn main()
     println!("{}", rect1.area());
     println!("{}", rect1.can_hold(&Rectangle{ width: 30, height: 60 }));
     println!("{}", rect1.can_hold(&Rectangle::square(20)));
+
+    let home = IpAddress::V4(127, 0, 0, 1);
+    let home = IpAddress::V6(String::from("::1"));
+
+    let m = Message::Write(String::from("Hello"));
+    m.call();
+
+    let x = Some(5);
+    let six =     match x  {
+        None => None,
+        Some(i) => Some(i + 1),
+        other => other,
+    };
+
+    let dice_roll = 9;
+    match dice_roll {
+        3 => sleep_for(0.3),
+        2 => sleep_for(0.2),
+        _ => (),                // empty tuple type -> means do nothing
+    }
+
+    let config_max = Some(3u8);
+    if let Some(max) = config_max { println!("config_max: {config_max:?}"); }
+    if let None = config_max { println!("config_max: None"); }
 }
