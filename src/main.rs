@@ -1,6 +1,5 @@
 use std::result;
 use std::time::Duration;
-
 mod calculator;
 mod method_receiver_syntax;
 use method_receiver_syntax::CarRace;
@@ -8,8 +7,12 @@ mod trait_impl;
 mod loops;
 mod ownership;
 mod slices;
+mod structures;
+mod guessing_game;
+mod variables;
 
 use trait_impl::{Dog, Pet};
+use crate::structures::Rectangle;
 
 // Tuple Structs
 struct Point(i32, i32);
@@ -111,4 +114,15 @@ fn main()
     let mut slicing_string = String::from("Hello, world!");
     let word = slices::first_word(&slicing_string);
     slicing_string.clear();
+
+    let scale = 2;
+    let rect1 = Rectangle {
+        width: dbg!(30 * scale),
+        height: 45
+    };
+
+    dbg!(&rect1);
+    println!("{}", rect1.area());
+    println!("{}", rect1.can_hold(&Rectangle{ width: 30, height: 60 }));
+    println!("{}", rect1.can_hold(&Rectangle::square(20)));
 }
