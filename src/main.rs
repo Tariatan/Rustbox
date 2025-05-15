@@ -126,14 +126,14 @@ fn main()
     println!("{}", rect1.can_hold(&Rectangle{ width: 30, height: 60 }));
     println!("{}", rect1.can_hold(&Rectangle::square(20)));
 
-    let home = IpAddress::V4(127, 0, 0, 1);
-    let home = IpAddress::V6(String::from("::1"));
+    let _home = IpAddress::V4(127, 0, 0, 1);
+    let _home = IpAddress::V6(String::from("::1"));
 
     let m = Message::Write(String::from("Hello"));
     m.call();
 
     let x = Some(5);
-    let six =     match x  {
+    let _six =     match x  {
         None => None,
         Some(i) => Some(i + 1),
         other => other,
@@ -147,6 +147,6 @@ fn main()
     }
 
     let config_max = Some(3u8);
-    if let Some(max) = config_max { println!("config_max: {config_max:?}"); }
+    if let Some(_max) = config_max { println!("config_max: {_max:?}"); }
     if let None = config_max { println!("config_max: None"); }
 }
