@@ -1,4 +1,3 @@
-use std::sync::Mutex;
 
 pub fn ownership_with_string() {
     let mut s = String::from("Hello");

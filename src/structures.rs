@@ -24,6 +24,7 @@ impl Rectangle {
     }
 }
 
+#[allow(dead_code)]
 pub struct User {
     active: bool,
     username: String,
@@ -40,19 +41,22 @@ pub fn build_user(email: String, username: String) -> User {
     }
 }
 
-pub fn struct_update_syntax(user: User, email: String) -> User {
+pub fn struct_update_syntax(user: User, _email: String) -> User {
     User {
         email: String::from("another@example.com"),
-        ..user              // using struct update syntax to set as  new email value for a
-                            // User instance but to use the rest of the values form 'user'
+        ..user              // using struct update syntax to set as new email value for a
+                            // User instance but to use the rest of the values from 'user'
                             // !!! Must come last !!!
     }
 }
 
+#[allow(dead_code)]
 struct Color(i32, i32, i32);
+
+#[allow(dead_code)]
 struct Point(i32, i32, i32);
 pub fn tuple_structs()
 {
-    let black = Color(0, 0, 0);
-    let origin = Point(0, 0, 0);
+    let _black = Color(0, 0, 0);
+    let _origin = Point(0, 0, 0);
 }

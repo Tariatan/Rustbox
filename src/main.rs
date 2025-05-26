@@ -12,11 +12,15 @@ mod generics;
 
 mod structures;
 mod guessing_game;
+use guessing_game::*;
 mod variables;
 mod enumerations;
-use trait_impl::{Dog, Pet};
+mod minimum;
+
+use trait_impl::{Cat, Dog, Pet};
+use trait_impl::*;
 use crate::enumerations::{IpAddress, Message};
-use crate::structures::Rectangle;
+use crate::structures::{Rectangle};
 
 // Tuple Structs
 struct Point(i32, i32);
@@ -94,6 +98,8 @@ fn main()
     };
 
     println!("{}", calculator::eval(complex_expression));
+    
+    guessing_game();
 
     let mut race = CarRace::new("Grand Prix");
     race.add_lap(70);
@@ -114,11 +120,19 @@ fn main()
     ownership::ownership_with_methods();
     ownership::ownership_with_returning();
     ownership::ownership_reference();
+    ownership::dangling_reference();
 
     let mut slicing_string = String::from("Hello, world!");
     let _word = slices::first_word(&slicing_string);
     slicing_string.clear();
 
+    slices::string_slices();
+    
+    let user = structures::build_user(String::from("email@gmail.com"), String::from("User"));
+    let _twink = structures::struct_update_syntax(user, String::from("email@yahoo.com"));
+    
+    structures::tuple_structs();
+    
     let _x = 5;
     let _xx = generics::duplicate(_x);
 
@@ -156,4 +170,13 @@ fn main()
     let config_max = Some(3u8);
     if let Some(_max) = config_max { println!("config_max: {_max:?}"); }
     if let None = config_max { println!("config_max: None"); }
+
+    let cat = Cat { name: String::from("Kitty"), lives: 9 };
+    let dog = Dog { name: String::from("Fido"), age: 5 };
+
+    generic(&cat);
+    generic(&dog);
+
+    dynamic(&cat);
+    dynamic(&dog);
 }

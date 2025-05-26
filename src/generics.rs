@@ -5,11 +5,13 @@ where
     (a.clone(), a.clone())
 }
 
+#[allow(dead_code)]
 pub trait From<T>: Sized {
     fn from(value: T) -> Self;
 }
 
 #[derive(Debug)]
+#[allow(dead_code)]
 pub struct Foo(String);
 
 impl From<u32> for Foo {

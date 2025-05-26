@@ -1,3 +1,4 @@
+#[allow(dead_code)]
 fn variables() {
     let mut x = 5;
     println!("The value of x is: {}", x);
