@@ -1,4 +1,5 @@
 use std::time::Duration;
+
 mod calculator;
 mod method_receiver_syntax;
 use method_receiver_syntax::*; // The Glob Operator
@@ -6,6 +7,9 @@ mod trait_impl;
 mod loops;
 mod ownership;
 mod slices;
+mod associated_types;
+mod generics;
+
 mod structures;
 mod guessing_game;
 mod variables;
@@ -112,8 +116,11 @@ fn main()
     ownership::ownership_reference();
 
     let mut slicing_string = String::from("Hello, world!");
-    let word = slices::first_word(&slicing_string);
+    let _word = slices::first_word(&slicing_string);
     slicing_string.clear();
+
+    let _x = 5;
+    let _xx = generics::duplicate(_x);
 
     let scale = 2;
     let rect1 = Rectangle {
@@ -133,7 +140,7 @@ fn main()
     m.call();
 
     let x = Some(5);
-    let _six =     match x  {
+    #[allow(unreachable_patterns)] let _six = match x  {
         None => None,
         Some(i) => Some(i + 1),
         other => other,
