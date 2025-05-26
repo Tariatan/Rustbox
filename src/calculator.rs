@@ -1,9 +1,9 @@
 /// An operation to perform on two subexpressions.
 #[derive(Debug)]
-#[allow(dead_code)]
 pub enum Operation
 {
     Add,
+    #[allow(unused)]
     Sub,
     Mul,
     Div,

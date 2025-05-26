@@ -24,7 +24,7 @@ impl Rectangle {
     }
 }
 
-#[allow(dead_code)]
+#[allow(unused)]
 pub struct User {
     active: bool,
     username: String,

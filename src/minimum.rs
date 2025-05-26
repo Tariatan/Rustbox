@@ -1,6 +1,6 @@
 use std::cmp::Ordering;
 
-#[allow(dead_code)]
+#[allow(unused)]
 fn min<T: Ord>(l: T, r: T) -> T {
     match l.cmp(&r) {
         Ordering::Less | Ordering::Equal => l,

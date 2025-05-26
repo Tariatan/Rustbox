@@ -11,6 +11,13 @@ pub trait Pet: Animal {
     }
 }
 
+// It’s common to derive PartialEq/Eq traits, but uncommon to implement them.
+impl PartialEq<Dog> for Cat {
+    fn eq(&self, _other: &Dog) -> bool {
+        false
+    }
+}
+
 pub struct Dog {
     pub name: String,
     pub age: i8,
@@ -63,4 +70,19 @@ pub fn generic(pet: &impl Pet) {
 //  -   to a vtable.
 pub fn dynamic(pet: &dyn Pet) {
     println!("Hello, who are you? {}", pet.talk());
+}
+
+#[derive(Debug, Copy, Clone)]
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+impl std::ops::Add for Point {
+    // Associated types (like Output) are controlled by the implementer of a trait.
+    type Output = Self;
+
+    fn add(self, other: Self) -> Self {
+        Self { x: self.x + other.x, y: self.y + other.y }
+    }
 }

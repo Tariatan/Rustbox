@@ -1,3 +1,4 @@
+use std::cmp::PartialEq;
 use std::time::Duration;
 
 mod calculator;
@@ -12,14 +13,18 @@ mod generics;
 
 mod structures;
 mod guessing_game;
-use guessing_game::*;
 mod variables;
 mod enumerations;
 mod minimum;
+mod file_read;
+mod strings;
+mod vector_array;
+mod map;
 
 use trait_impl::{Cat, Dog, Pet};
 use trait_impl::*;
 use crate::enumerations::{IpAddress, Message};
+use crate::file_read::{list_current_directory, read_file};
 use crate::structures::{Rectangle};
 
 // Tuple Structs
@@ -48,6 +53,7 @@ fn hex_or_die_trying(maybe_string: Option<String>) -> Result<u32, String>
 
     Ok(digit)
 }
+
 fn main()
 {
     let p = Point(17, 23);
@@ -98,8 +104,8 @@ fn main()
     };
 
     println!("{}", calculator::eval(complex_expression));
-    
-    guessing_game();
+
+    // guessing_game();
 
     let mut race = CarRace::new("Grand Prix");
     race.add_lap(70);
@@ -109,7 +115,7 @@ fn main()
     race.print_laps();
     race.finish();
 
-    let fido = Dog {name: String::from("Fido"), age: 3};
+    let fido = Dog {name: String::from("Fido"), age: 3i8 };
     fido.greet();
 
     loops::break_returns_value();
@@ -127,12 +133,12 @@ fn main()
     slicing_string.clear();
 
     slices::string_slices();
-    
+
     let user = structures::build_user(String::from("email@gmail.com"), String::from("User"));
     let _twink = structures::struct_update_syntax(user, String::from("email@yahoo.com"));
-    
+
     structures::tuple_structs();
-    
+
     let _x = 5;
     let _xx = generics::duplicate(_x);
 
@@ -162,8 +168,8 @@ fn main()
 
     let dice_roll = 9;
     match dice_roll {
-        3 => sleep_for(0.3),
-        2 => sleep_for(0.2),
+        3 => sleep_for(0.3 as f32),
+        2 => sleep_for(0.2f32),
         _ => (),                // empty tuple type -> means do nothing
     }
 
@@ -174,9 +180,14 @@ fn main()
     let cat = Cat { name: String::from("Kitty"), lives: 9 };
     let dog = Dog { name: String::from("Fido"), age: 5 };
 
+    if cat == dog { println!("cat == dog"); }
+    
     generic(&cat);
     generic(&dog);
 
     dynamic(&cat);
     dynamic(&dog);
+
+    let _dirs = list_current_directory();
+    let _internals = read_file();
 }

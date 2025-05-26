@@ -1,11 +1,11 @@
-#[allow(dead_code)]
+#[allow(unused)]
 pub enum IpAddress {
     V4(u8, u8, u8, u8),
     V6(String),
 }
 
 #[derive(Debug)]
-#[allow(dead_code)]
+#[allow(unused)]
 pub enum Message {
     Quit,
     Move { x: i32, y: i32 },
