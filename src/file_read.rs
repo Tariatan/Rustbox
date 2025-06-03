@@ -26,6 +26,8 @@ pub fn list_current_directory() -> io::Result<()> {
 }
 
 pub fn read_file() -> Result<String, std::io::Error> {
+    // panic! with user-defined message
+    let _file = File::open("README.md.").expect("File README.md should be included in the project!");
     let file : Result<File, std::io::Error> = File::open("README.md");
     let mut contents = String::new();
     match file {
@@ -33,11 +35,16 @@ pub fn read_file() -> Result<String, std::io::Error> {
             if let Ok(bytes) = file.read_to_string(&mut contents) {
                 println!("Content: {contents} ({bytes} bytes)");
             } else {
-                println!("Could not read file content");
+                panic!("Could not read file content");
             }
         }
-        Err(err) => {
-            println!("The file could not be opened: {err}");
+        Err(error) => match error.kind() {
+            io::ErrorKind::NotFound => {
+                File::create("README.md").unwrap_or_else(|error| panic!("Error creating README.md: {:?}", error));
+            }
+            _any_other_error => {
+                return Err(error);
+            }
         }
     }
 

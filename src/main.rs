@@ -20,12 +20,14 @@ mod file_read;
 mod strings;
 mod vector_array;
 mod map;
+mod panicking;
 
 use trait_impl::{Cat, Dog, Pet};
 use trait_impl::*;
 use crate::enumerations::{IpAddress, Message};
 use crate::file_read::{list_current_directory, read_file};
 use crate::structures::{Rectangle};
+use crate::vector_array::vector_array;
 
 // Tuple Structs
 struct Point(i32, i32);
@@ -190,4 +192,6 @@ fn main()
 
     let _dirs = list_current_directory();
     let _internals = read_file();
+
+    vector_array();
 }

@@ -15,4 +15,29 @@ pub fn strings() {
 
     // String::chars returns an iterator over the actual characters.
     println!("s3: len = {}, number of chars = {}", s3.len(), s3.chars().count());
+    
+    let data = "initial contents";
+    
+    let s = data.to_string();
+    let s = "initial contents".to_string();
+    let s = String::from("initial contents");
+    
+    let s1 = String::from("Hello, ");
+    let s2 = String::from("world!");
+    let s3 = s1 + &s2; // s1 has been moved here and can no longer be used
+    // println!("s1 = {}, s2 = {}", s1, s2); // value used after being moved
+    
+    let s1 = String::from("tic);");
+    let s2 = String::from("tac);");
+    let s3 = String::from("toe");
+    let s = format!("{s1}-{s2}-{s3}"); // uses references - no ownership taken
+    println!("{s}");
+    
+    // let h = s[0]; // Rust strings don't support indexing
+                     // as index into the string's byte
+                     // will not always correlate to a valid Unicode scalar value
+    
+    for word in "hello wonderful world full of joys".split_whitespace() {
+        println!("{}", word);
+    }
 }

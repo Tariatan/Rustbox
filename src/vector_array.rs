@@ -1,3 +1,5 @@
+use std::thread::yield_now;
+
 #[allow(unused)]
 pub fn vector_array() {
     let mut v1 = Vec::new();
@@ -19,4 +21,39 @@ pub fn vector_array() {
     // Remove consecutive duplicates.
     v3.dedup();
     println!("{v3:?}");
+    
+    // let does_not_exist = &v3[100];   // Panics
+    let does_not_exist = v3.get(100); // None, without panicking
+
+    let third: Option<&i32> = v3.get(2);
+    match third {
+        Some(x) => println!("{}", x),
+        None => println!("None"),
+    }
+    
+    let first = &v3[0]; // Immutable borrow
+    // v3.push(4);         // Mutable borrow forbidden
+    let copy = first;   //  Immutable borrow
+
+    // Immutable
+    for i in &v3 {
+        println!("{}", i);
+    }
+    
+    // Mutable
+    for i in &mut v3 {
+        *i += 50;
+    }
+    
+    let row = vec![
+        SpreadsheetCell::Int(3),
+        SpreadsheetCell::Text(String::from("blue")),
+        SpreadsheetCell::Float(10.12),
+    ];
+}
+
+enum SpreadsheetCell {
+    Int(i32),
+    Float(f64),
+    Text(String),
 }

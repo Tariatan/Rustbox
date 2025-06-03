@@ -12,10 +12,20 @@ pub fn hash_map() {
         ("Harry Potter and the Sorcerer's Stone".to_string(), 336),
         ("The Hunger Games".to_string(), 374),
     ]);
+
+    for (key, value) in &page_counts {
+        println!("{}: {}", key, value);
+    }
     
+    let new_book = String::from("New Book");
+    page_counts.insert(new_book, 111);
+    
+    // println!("{new_book}"); // types with no Copy trait implemented are being moved into the map
+
     page_counts.extend(new_page_counts);
     
     // See if a book is in the hashmap and if not return an alternative value. 
+    let pc = page_counts.get("Harry Potter and the Sorcerer's Stone").copied().unwrap_or(336);
     let pc1 = page_counts.get("Harry Potter and the Sorcerer's Stone").unwrap_or(&336);
 
     // Insert the alternative value in the hashmap if the book is not found.
