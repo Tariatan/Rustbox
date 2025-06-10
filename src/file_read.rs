@@ -5,7 +5,10 @@ use std::io::Read;
 
 pub fn list_current_directory() -> io::Result<()> {
     // Get the current working directory
-    let current_dir = fs::canonicalize(".")?;
+    let current_dir = fs::canonicalize(".")?; // ? - the value in Ok is returned
+                                                            // otherwise propagates an error to the calling code.
+                                                            // Only valid with functions returning Result or Option
+    
     println!("Current directory: {}", current_dir.display());
 
     // Read directory entries
@@ -49,4 +52,16 @@ pub fn read_file() -> Result<String, std::io::Error> {
     }
 
     Ok(contents)
+}
+
+#[allow(unused)]
+pub fn read_username_from_file_with_error_propagation() -> Result<String, std::io::Error> {
+    let mut username = String::new();
+    File::open("hello.txt")?.read_to_string(&mut username)?;
+    Ok(username)
+}
+
+#[allow(unused)]
+pub fn read_username_from_file_with_fs() -> Result<String, std::io::Error> {
+    fs::read_to_string("hello.txt")
 }

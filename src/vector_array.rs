@@ -1,4 +1,3 @@
-use std::thread::yield_now;
 
 #[allow(unused)]
 pub fn vector_array() {
@@ -52,6 +51,7 @@ pub fn vector_array() {
     ];
 }
 
+#[allow(unused)]
 enum SpreadsheetCell {
     Int(i32),
     Float(f64),

@@ -1,4 +1,4 @@
-use std::cmp::PartialEq;
+use std::net::IpAddr;
 use std::time::Duration;
 
 mod calculator;
@@ -21,12 +21,15 @@ mod strings;
 mod vector_array;
 mod map;
 mod panicking;
+mod lifetimes;
+mod mini_grep;
 
 use trait_impl::{Cat, Dog, Pet};
 use trait_impl::*;
 use crate::enumerations::{IpAddress, Message};
 use crate::file_read::{list_current_directory, read_file};
-use crate::structures::{Rectangle};
+use crate::mini_grep::mini_grep;
+use crate::structures::Rectangle;
 use crate::vector_array::vector_array;
 
 // Tuple Structs
@@ -194,4 +197,11 @@ fn main()
     let _internals = read_file();
 
     vector_array();
+
+    let _home: IpAddr =  String::from("127.0.0.1").parse().expect("Hardcoded IP address should be valid");
+    
+    let mut args: Vec<String> = std::env::args().collect();
+    args.push("Rust".to_string());
+    args.push("README.md.".to_string());
+    mini_grep(&args);
 }

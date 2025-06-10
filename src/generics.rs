@@ -25,3 +25,30 @@ impl From<bool> for Foo {
         Foo(format!("Converted from bool: {from}"))
     }
 }
+
+#[allow(dead_code)]
+enum Variant<T> {
+    Some(T),
+    None,
+}
+
+#[allow(dead_code)]
+struct Point<T>  {
+    x: T,
+    y: T,
+}
+
+#[allow(dead_code)]
+impl<T> Point<T> {
+    fn x(&self) -> &T {
+        &self.x
+    }
+}
+
+#[allow(dead_code)]
+impl Point<f32>  {
+    // Only instances of Point<f32> will have this method
+    fn distance_from_origin(&self) -> f32 {
+        (self.x.powi(2) + self.y.powi(2)).sqrt()
+    }
+}
