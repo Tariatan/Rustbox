@@ -23,9 +23,12 @@ mod map;
 mod panicking;
 mod lifetimes;
 mod mini_grep;
+mod closures;
+mod iterators;
 
 use trait_impl::{Cat, Dog, Pet};
 use trait_impl::*;
+use crate::closures::choose;
 use crate::enumerations::{IpAddress, Message};
 use crate::file_read::{list_current_directory, read_file};
 use crate::mini_grep::mini_grep;
@@ -203,5 +206,13 @@ fn main()
     let mut args: Vec<String> = std::env::args().collect();
     args.push("Rust".to_string());
     args.push("README.md.".to_string());
-    mini_grep(&args);
+    mini_grep(args.into_iter());
+    
+    choose();
+
+    crate::closures::closure_examples();
+    crate::closures::sort_rectangles_by_key();
+
+    crate::iterators::iterators_example();
+    crate::iterators::filters_by_size();
 }
