@@ -1,5 +1,4 @@
 use std::{env, fs, process};
-use std::vec::IntoIter;
 
 pub fn mini_grep(args: impl Iterator<Item = String>) {
     

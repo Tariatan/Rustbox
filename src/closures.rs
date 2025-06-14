@@ -1,4 +1,3 @@
-use std::process::Termination;
 use std::thread;
 use std::time::Duration;
 
@@ -76,7 +75,7 @@ pub fn closure_examples() {
     // The type of the parameters and return type will be inferred by the first call of the closure.
     let example_closure = |x| x;
     
-    let s = example_closure(String::from("hello"));
+    let _s = example_closure(String::from("hello"));
     // let n = example_closure(1);     // Expected 'String' but found i32
     
     let list = vec![1, 2, 3];
@@ -100,6 +99,7 @@ pub fn closure_examples() {
 }
 
 #[derive(Debug)]
+#[allow(unused)]
 struct Rectangle {
     width: u32,
     height: u32,
@@ -123,7 +123,7 @@ pub fn sort_rectangles_by_key() {
     ];
     
     let mut num_sort_operations = 0;
-    let value = String::from("by key called");
+    let _value = String::from("by key called");
     
     list.sort_by_key(|r| {
         num_sort_operations += 1;
