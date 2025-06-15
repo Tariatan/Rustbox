@@ -25,6 +25,7 @@ mod lifetimes;
 mod mini_grep;
 mod closures;
 mod iterators;
+mod smart_pointers;
 
 use trait_impl::{Cat, Dog, Pet};
 use trait_impl::*;
@@ -210,9 +211,15 @@ fn main()
     
     choose();
 
-    crate::closures::closure_examples();
-    crate::closures::sort_rectangles_by_key();
+    closures::closure_examples();
+    closures::sort_rectangles_by_key();
 
-    crate::iterators::iterators_example();
-    crate::iterators::filters_by_size();
+    iterators::iterators_example();
+    iterators::filters_by_size();
+
+    smart_pointers::using_box();
+    smart_pointers::using_rc();
+    smart_pointers::using_ref_cell();
+    smart_pointers::weak_reference();
+    
 }
