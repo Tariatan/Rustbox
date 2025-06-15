@@ -117,6 +117,7 @@ enum RefList {
 
 
 #[derive(Debug)]
+#[allow(unused)]
 enum LeakingList {
     LeakingCons(i32, RefCell<Rc<LeakingList>>),
     LeakingNil,
@@ -251,6 +252,7 @@ mod tests {
 // Weak references, Weak<T>, don't express an ownership relationship, and their count doesn't affect
 // when a Rc<T> instance is cleaned up.
 #[derive(Debug)]
+#[allow(unused)]
 struct Node {
     value: i32,
     // Can't be a Rc<T> because that would create a reference cycle with leaf.parent
