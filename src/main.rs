@@ -26,13 +26,18 @@ mod mini_grep;
 mod closures;
 mod iterators;
 mod smart_pointers;
+mod fearless_concurrency;
+mod oop;
+mod patterns;
 
 use trait_impl::{Cat, Dog, Pet};
 use trait_impl::*;
+use oop::{IncapsulatedCollection};
 use crate::closures::choose;
 use crate::enumerations::{IpAddress, Message};
 use crate::file_read::{list_current_directory, read_file};
 use crate::mini_grep::mini_grep;
+use crate::oop::*;
 use crate::structures::Rectangle;
 use crate::vector_array::vector_array;
 
@@ -222,4 +227,26 @@ fn main()
     smart_pointers::using_ref_cell();
     smart_pointers::weak_reference();
     
+    fearless_concurrency::thread_spawning();
+    fearless_concurrency::move_closures();
+    fearless_concurrency::channels();
+    fearless_concurrency::mutexes();
+    
+    let mut o = IncapsulatedCollection::new();
+    o.add(1);
+    o.add(2);
+    o.add(3);
+    o.add(4);
+    o.remove();
+
+    let a = o.average();
+    println!("a: {}", a);
+    
+    let screen = Screen::demo();
+    screen.run();
+
+    state_pattern();
+    encode_state_into_type_system();
+    
+    patterns::conditional();
 }
