@@ -29,6 +29,7 @@ mod smart_pointers;
 mod fearless_concurrency;
 mod oop;
 mod patterns;
+mod unsafe_superpowers;
 
 use trait_impl::{Cat, Dog, Pet};
 use trait_impl::*;
@@ -39,6 +40,7 @@ use crate::file_read::{list_current_directory, read_file};
 use crate::mini_grep::mini_grep;
 use crate::oop::*;
 use crate::structures::Rectangle;
+use crate::unsafe_superpowers::disambiguator;
 use crate::vector_array::vector_array;
 
 // Tuple Structs
@@ -249,4 +251,6 @@ fn main()
     encode_state_into_type_system();
     
     patterns::conditional();
+    
+    disambiguator();
 }
