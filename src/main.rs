@@ -40,7 +40,7 @@ use crate::file_read::{list_current_directory, read_file};
 use crate::mini_grep::mini_grep;
 use crate::oop::*;
 use crate::structures::Rectangle;
-use crate::unsafe_superpowers::disambiguator;
+use crate::unsafe_superpowers::*;
 use crate::vector_array::vector_array;
 
 // Tuple Structs
@@ -253,4 +253,7 @@ fn main()
     patterns::conditional();
     
     disambiguator();
+    outlined_point();
+    wrapped_vector();
+    do_math();
 }

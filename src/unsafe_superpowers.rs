@@ -1,3 +1,4 @@
+use std::fmt::{Display, Formatter};
 use std::ops::Add;
 use std::slice;
 
@@ -182,3 +183,110 @@ pub fn disambiguator() {
     Wizard::fly(&person); // "Up!"
     <Human as Wizard>::fly(&person);    // "Up!"
 }
+
+pub fn outlined_point() {
+    let a = Point { x: 1, y: 2 };
+    a.outline_print();
+}
+// Supertraits
+trait OutlinePrint: Display {
+    fn outline_print(&self) {
+        let output = self.to_string(); // to_string comes from the Display supertrait
+        let len = output.len();
+        println!("{}", "*".repeat(len + 4));
+        println!("*{}*", " ".repeat(len + 2));
+        println!("* {} *", output);
+        println!("*{}*", " ".repeat(len + 2));
+        println!("{}", "*".repeat(len + 4));
+    }
+}
+
+impl Display for Point {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "({}, {})", self.x, self.y)
+    }
+}
+impl OutlinePrint for Point {
+    
+}
+
+// Using the Newtype pattern to implement External Traits
+// Let's say we want to implement Display on Vec<T>, which the orphan rule prevents us from doing
+// directly because the Display trait and the Vec<T> type are defined outside our crate.
+// We can make a Wrapper struct that holds an instance of Vec<T>; then we can implement Display
+// on Wrapper and use the Vec<T> value.
+struct Wrapper(Vec<String>); // Tuple struct
+impl Display for Wrapper {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "[{}]", self.0.join(",")) // Vec<T> is the item at index 0 in the tuple
+    }
+}
+
+pub fn wrapped_vector() {
+    let w =  Wrapper(vec![String::from("Hello"), String::from("World")]);
+    println!("w = {w}");
+}
+
+// Type synonyms
+#[allow(unused)]
+type Kilometers = i32;
+#[allow(unused)]
+pub fn type_alias() {
+    let x: i32 = 5;
+    let y: Kilometers = 5;
+    println!("x + y = {}", x + y);
+
+    type Thunk = Box<dyn Fn() + Send + 'static>;
+    let f: Thunk = Box::new(|| println!("hi"));
+    fn takes_long_type(f: Thunk) {}
+    fn returns_long_type() -> Thunk {
+        Box::new(|| println!("there"))
+    }
+}
+
+// Never type '!' that never returns
+#[allow(unused)]
+// 'Diverging function' - The function bar returns never, since panic! terminates the program
+fn bar() -> ! { 
+    panic!("foo")
+}
+
+// Advanced Functions and Closures
+fn add_one(x: i32) -> i32 {
+    x + 1
+}
+fn do_twice(f: fn(i32) -> i32, arg: i32) -> i32 {
+    f(arg) + f(arg)
+}
+pub fn do_math() {
+    let answer = do_twice(add_one, 5); // (5 + 1) + (5 + 1)
+    println!("The answer is: {}", answer);
+}
+
+// macro_rules!
+#[macro_export]                // make this macro available whenever the crate is brought into scope
+macro_rules! create_vec {
+    ( $( $x:expr ),* ) => {    // match pattern arm
+                               // ($) declares a variable in the macro system that will contain the Rust code
+                               // matching the pattern
+                               // $x:expr matches any Rust expression and gives the expression the name $x
+                               // ',' indicates that a literal comma separator could optionally appear
+                               // after the code that matches the code in $()
+                               // '*' specifies that the pattern matches zero or more of whatever precedes the *
+                               // in create_vec![1, 2, 3] the $x pattern matches 3 times with the 3 expressions 1, 2, and 3
+        {
+            let mut temp_vec = Vec::new();
+            $(                          // block $()* is generated fore each part that matches $()
+                temp_vec.push( $x);     // $x is replaced with each expression matched
+            )*
+            temp_vec                    // return result
+        }
+    };
+}
+
+#[allow(unused)]
+pub fn macro_rules() {
+    let v: Vec<i32> = create_vec![1, 2, 3];
+}
+
+// Procedural macros require own crate
