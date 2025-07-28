@@ -60,7 +60,7 @@ struct MyBox<T>(T);
 impl<T> Deref for MyBox<T> {
     type Target = T;
     fn deref(&self) -> &Self::Target {
-        &self.0     // return the first value in as  tuple struct.
+        &self.0     // return the first value in a tuple struct.
     }
 }
 

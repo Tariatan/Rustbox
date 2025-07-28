@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 #[derive(Debug)]
 pub struct Rectangle {
     pub width: u32,
@@ -24,7 +26,7 @@ impl Rectangle {
     }
 }
 
-#[allow(unused)]
+#[derive(Default)]
 pub struct User {
     active: bool,
     username: String,
@@ -50,10 +52,15 @@ pub fn struct_update_syntax(user: User, _email: String) -> User {
     }
 }
 
-#[allow(dead_code)]
+pub fn struct_new_with_default_syntax(_email: String) -> User {
+    User {
+        email: String::from("another@example.com"),
+        ..User::default()
+    }
+}
+
 struct Color(i32, i32, i32);
 
-#[allow(dead_code)]
 struct Point(i32, i32, i32);
 pub fn tuple_structs()
 {
