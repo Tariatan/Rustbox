@@ -33,6 +33,7 @@ mod unsafe_superpowers;
 mod pitfalls;
 mod builder;
 mod binary_tree;
+mod tcp;
 
 use trait_impl::{Cat, Dog, Pet};
 use trait_impl::*;

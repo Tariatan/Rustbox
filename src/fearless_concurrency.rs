@@ -46,7 +46,7 @@ pub fn channels() {
         ];
         for val in vals {
             tx.send(val).unwrap();
-            thread::sleep(Duration::from_millis(200));
+            thread::sleep(Duration::from_millis(50));
         }
         // println!("val is: {}", vals) // Value used after being moved
     });
@@ -60,7 +60,7 @@ pub fn channels() {
         ];
         for val in vals {
             tx1.send(val).unwrap();
-            thread::sleep(Duration::from_millis(200));
+            thread::sleep(Duration::from_millis(50));
         }
     });
 
