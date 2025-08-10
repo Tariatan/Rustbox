@@ -160,11 +160,11 @@ impl<T: Display + PartialOrd> Pair<T> {
     }
 }
 
-#[derive(PartialEq, Debug)]
+#[derive(PartialEq, Debug, Clone)]
 pub struct USD(i32);
-#[derive(PartialEq, Debug)]
+#[derive(PartialEq, Debug, Clone)]
 pub struct GBP(i32);
-#[derive(PartialEq, Debug)]
+#[derive(PartialEq, Debug, Clone)]
 pub struct CAD(i32);
 
 pub trait ToUSD {
@@ -196,7 +196,7 @@ pub fn converter() {
     println!("{:?}", u);
     let c = CAD::from_usd(&u);
     println!("{:?}", c);
-    
+
     let c2:CAD = g.convert();
     println!("{:?}", c2);
 }
@@ -210,19 +210,50 @@ pub trait FromUSDv<F> {
 }
 
 pub struct Ex {
-    cad:f32,
-    gbp:f32,
+    account_id: i32,
+    cad: f32,
+    gbp: f32,
 }
 
 pub trait Exchange<F, T> {
     fn convert(&self, f: F) -> T;
 }
 
+#[derive(PartialEq, Debug, Clone)]
+pub struct Transaction<A> {
+    from_id:i32,
+    to_id:i32,
+    amount:A,
+}
+
+pub trait Account {
+    fn id(&self) -> i32;
+}
+
+impl Account for Ex {
+    fn id(&self) -> i32 {
+        self.account_id
+    }
+}
 impl<E, F, T> Exchange<F, T> for E
     where E: ToUSDv<F> + FromUSDv<T>
 {
     fn convert(&self, f: F) -> T {
         self.from_uv(self.to_uv(f))
+    }
+}
+pub  trait ExchangeAccount<F, T> {
+    fn exchange(&self, f_id:i32, t_id:i32, amount:F) -> (Transaction<F>, Transaction<T>);
+}
+
+impl<E, F, T> ExchangeAccount<F, T> for E
+    where E:Exchange<F, T> + Account,
+          F:Clone
+{
+    fn exchange(&self, f_id: i32, t_id: i32, amount: F) -> (Transaction<F>, Transaction<T>) {
+        let ft = Transaction {from_id:f_id, to_id:self.id(), amount:amount.clone()};
+        let tt = Transaction {from_id:self.id(), to_id:t_id, amount:self.convert(amount)};
+        (ft, tt)
     }
 }
 impl ToUSDv<GBP> for Ex {
@@ -239,7 +270,7 @@ impl FromUSDv<CAD> for Ex {
 #[allow(unused)]
 pub fn exchanger() {
     let g = GBP(200);
-    let ex = Ex{cad:0.7, gbp:1.3};
+    let ex = Ex{ account_id: 0, cad:0.7, gbp:1.3};
     let c = ex.from_uv(ex.to_uv(g));
     println!("{:?}", c);
 
@@ -247,5 +278,7 @@ pub fn exchanger() {
     let g = GBP(200);
     let c = ex.convert(g);
     println!("{:?}", c);
+    
+    let ex = Ex {account_id:30, cad:0.7, gbp:1.3};
+    let (ft, tt) = ex.exchange(20, 40, GBP(200));
 }
-
