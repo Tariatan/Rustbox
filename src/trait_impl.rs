@@ -206,6 +206,7 @@ pub trait ToUSDv<F> {
 }
 
 pub trait FromUSDv<F> {
+    #[allow(clippy::wrong_self_convention)]
     fn from_uv(&self, g:f32) -> F;
 }
 
