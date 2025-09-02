@@ -26,7 +26,7 @@ mod mini_grep;
 mod closures;
 mod iterators;
 mod smart_pointers;
-mod fearless_concurrency;
+mod concurrency;
 mod oop;
 mod patterns;
 mod unsafe_superpowers;
@@ -233,10 +233,10 @@ fn main()
     smart_pointers::using_ref_cell();
     smart_pointers::weak_reference();
     
-    fearless_concurrency::thread_spawning();
-    fearless_concurrency::move_closures();
-    fearless_concurrency::channels();
-    fearless_concurrency::mutexes();
+    concurrency::thread_spawning();
+    concurrency::move_closures();
+    concurrency::channels();
+    concurrency::mutexes();
     
     let mut o = IncapsulatedCollection::new();
     o.add(1);

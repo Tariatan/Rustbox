@@ -1,4 +1,6 @@
-use std::sync::{mpsc, Arc, Mutex};
+#![allow(unused)]
+
+use std::sync::{mpsc, mpsc::channel, mpsc::Sender, mpsc::Receiver, Arc, Mutex};
 use std::thread;
 use std::time::Duration;
 
@@ -96,4 +98,63 @@ pub fn mutexes() {
         handle.join().unwrap();
     }
     println!("Result: {}", *counter.lock().unwrap());
+}
+
+// Thread pool
+
+trait FnBox {
+    fn call_box(self: Box<Self>);
+}
+impl<F: FnOnce()> FnBox for F {
+    fn call_box(self: Box<F>) {
+        self();
+    }
+}
+type Job = Box<dyn FnBox + Send + 'static>;
+pub struct ThreadPool {
+    handles: Vec<thread::JoinHandle<()>>,
+    ch:Sender<Job>,
+}
+impl ThreadPool {
+    pub fn new(n: usize) -> Self {
+        let (cs,cr) = channel::<Job>();
+        let amap = Arc::new(Mutex::new(cr));
+        let mut handles = Vec::with_capacity(n);
+        for _ in 0..n {
+            let amp = amap.clone();
+            handles.push(thread::spawn(move || {
+                loop {
+                    let job = match amp.lock().unwrap().recv() {
+                        Ok(j) => j,
+                        _ => return,
+                    };
+                    job.call_box();
+                }
+            }));
+        }
+        ThreadPool { handles, ch: cs }
+    }
+    
+    pub fn add<F:FnOnce() + 'static + Send>(&self, job:F) {
+        self.ch.send(Box::new(job)).unwrap();
+    }
+    
+    pub fn end(self) {
+        // once dropped, all the receivers will receive an empty channel and end execution
+        drop(self.ch);
+
+        for h in self.handles {
+            h.join();
+        }
+    }
+}
+
+pub fn thread_pool() {
+    let p = ThreadPool::new(10);
+    p.add(|| {
+        println!("Hello, world!");
+    });
+    
+    p.end();
+    println!("Done");
 }

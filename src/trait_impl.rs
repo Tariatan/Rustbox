@@ -1,4 +1,6 @@
 use std::fmt::Display;
+use std::num::ParseIntError;
+use std::str::FromStr;
 
 pub trait Animal {
     fn leg_count(&self) -> u32 {
@@ -160,7 +162,7 @@ impl<T: Display + PartialOrd> Pair<T> {
     }
 }
 
-#[derive(PartialEq, Debug, Clone)]
+#[derive(PartialEq, Debug)]
 pub struct USD(i32);
 #[derive(PartialEq, Debug, Clone)]
 pub struct GBP(i32);
@@ -179,6 +181,22 @@ impl ToUSD for GBP {
     }
 }
 
+impl Display for USD {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let r = (self.0 as f32) / 100.;
+        if r < 0. {
+            return write!(f, "-${:.2}", -r);
+        }
+        write!(f, "{:.2}", r)
+    }
+}
+
+impl Clone for USD {
+    fn clone(&self) -> USD {
+        USD(self.0)
+    }
+}
+
 pub trait FromUSD {
     fn from_usd(u:&USD) -> Self;
 }
@@ -189,11 +207,18 @@ impl FromUSD for CAD {
     }
 }
 
+impl FromStr for GBP {
+    type Err = ParseIntError;
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        Ok(GBP(s.parse::<i32>()?))
+    }
+}
+
 #[allow(unused)]
 pub fn converter() {
     let g = GBP(200);
     let u = g.to_usd();
-    println!("{:?}", u);
+    println!("{:?}", u.to_string());    // implemented Display trait comes into play here
     let c = CAD::from_usd(&u);
     println!("{:?}", c);
 

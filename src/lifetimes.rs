@@ -1,8 +1,10 @@
+#![allow(unused)]
+
 use std::fmt::Display;
+
 
 // The returned reference will be valid as long as both parameters are valid.
 // This is the relationship between lifetimes of the parameters and the return type.
-#[allow(unused)]
 pub fn longest<'a>(a: &'a str, b: &'a str) -> &'a str {
     if a.len() > b.len() {
         a
@@ -11,7 +13,6 @@ pub fn longest<'a>(a: &'a str, b: &'a str) -> &'a str {
     }
 }
 
-#[allow(unused)]
 pub fn test_lifetimes_ok() {
     let s1 = String::from("Hello");
     // All string literals have the 'static lifetime, which can be annotated as follows.
@@ -22,7 +23,12 @@ pub fn test_lifetimes_ok() {
     let _l = longest(s1.as_str(), s2);
 }
 
-#[allow(unused)]
+static N:i32 = 10;
+
+fn get_stat() -> &'static i32 {
+    &N
+}
+
 pub fn test_lifetimes2_ok() {
     let s1 = String::from("long string is long");
     {
@@ -32,7 +38,6 @@ pub fn test_lifetimes2_ok() {
     }
 }
 
-#[allow(unused)]
 pub fn test_lifetimes3_failed() {
     let s1 = String::from("long string is long");
     let _l;
@@ -45,12 +50,10 @@ pub fn test_lifetimes3_failed() {
 
 //////////////////////////////////////////////////////////////////////////
 // A struct that holds a reference, requiring a lifetime annotation
-#[allow(unused)]
 struct ImportantExcerpt<'a> {
     part: &'a str,
 }
 
-#[allow(unused)]
 impl<'a> ImportantExcerpt<'a> {
     fn level(&self) -> i32 {
         3
@@ -62,7 +65,6 @@ impl<'a> ImportantExcerpt<'a> {
     }
 }
 
-#[allow(unused)]
 pub fn struct_lifetimes() {
     let novel = String::from("Call me Ishmael. Some years ago...");
     let first_sentence = novel.split('.').next().expect("Could not find a '.'");
@@ -70,7 +72,6 @@ pub fn struct_lifetimes() {
 }
 
 // Lifetime elision rules (determine when no explicit annotations needed)
-#[allow(unused)]
 pub fn first_word(s: &str) -> &str {
     // Rule 1: compiler assigns a lifetime parameter to each parameter that's a reference
 // fn first_word<'a>(s: &'a str) -> & str {
@@ -93,7 +94,6 @@ pub fn first_word(s: &str) -> &str {
 }
 
 // Generic type parameters, Trait bounds, and lifetimes together
-#[allow(unused)]
 pub fn longest_with_an_announcement<'a, T>
     (x: &'a str,
      y: &'a str,

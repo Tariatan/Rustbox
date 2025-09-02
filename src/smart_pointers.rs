@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 use std::cell::RefCell;
 use std::fmt::{Display, Formatter};
 use std::ops::Deref;
@@ -24,7 +26,6 @@ use std::rc::{Rc, Weak};
 // - When you want to own a value, and you care only that it's a type that
 //   implements a particular trait rather than being of a specific type.
 
-#[allow(unused)]
 pub enum List {
     Cons(i32, Box<List>),
     Nil,
@@ -84,7 +85,6 @@ impl<T> MyBox<T> {
 }
 
 //Rc<T>, the Reference Counted Smart Pointer
-#[allow(unused)]
 enum RcList {
     RcCons(i32, Rc<RcList>),
     RcNil,
@@ -109,7 +109,6 @@ pub fn using_rc() {
 // RefCell<T> and the Interior Mutability Pattern
 
 #[derive(Debug)]
-#[allow(unused)]
 enum RefList {
     RefCons(Rc<RefCell<i32>>, Rc<RefList>),
     RefNil,
@@ -117,7 +116,6 @@ enum RefList {
 
 
 #[derive(Debug)]
-#[allow(unused)]
 enum LeakingList {
     LeakingCons(i32, RefCell<Rc<LeakingList>>),
     LeakingNil,
@@ -176,19 +174,16 @@ pub fn using_ref_cell() {
     // The memory will remain uncollected forever since other instances still refer to it.
 }
 
-#[allow(unused)]
 pub trait Messenger {
     // Takes immutable reference to self
     fn send(&self, msg: &str);
 }
-#[allow(unused)]
 pub struct LimitTracker<'a, T: Messenger> {
     messenger: &'a T,
     value: usize,
     max: usize,
 }
 
-#[allow(unused)]
 impl<'a, T> LimitTracker<'a, T>
 where
     T: Messenger,
@@ -252,7 +247,6 @@ mod tests {
 // Weak references, Weak<T>, don't express an ownership relationship, and their count doesn't affect
 // when a Rc<T> instance is cleaned up.
 #[derive(Debug)]
-#[allow(unused)]
 struct Node {
     value: i32,
     // Can't be a Rc<T> because that would create a reference cycle with leaf.parent
