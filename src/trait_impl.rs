@@ -1,6 +1,17 @@
+#![allow(unused)]
+
 use std::fmt::Display;
 use std::num::ParseIntError;
 use std::str::FromStr;
+
+trait CountChar {
+    fn count_char(&self, c: char) -> usize;
+}
+impl CountChar for String {
+    fn count_char(&self, c: char) -> usize {
+        self.chars().filter(|&x| x == c).count()
+    }
+}
 
 pub trait Animal {
     fn leg_count(&self) -> u32 {

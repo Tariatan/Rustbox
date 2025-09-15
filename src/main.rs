@@ -34,6 +34,8 @@ mod pitfalls;
 mod builder;
 mod binary_tree;
 mod tcp;
+mod leetcode;
+mod recursion;
 
 use trait_impl::{Cat, Dog, Pet};
 use trait_impl::*;
@@ -41,6 +43,7 @@ use oop::{IncapsulatedCollection};
 use crate::closures::choose;
 use crate::enumerations::{IpAddress, Message};
 use crate::file_read::{list_current_directory, read_file};
+use crate::leetcode::*;
 use crate::mini_grep::mini_grep;
 use crate::oop::*;
 use crate::structures::Rectangle;
@@ -260,4 +263,36 @@ fn main()
     outlined_point();
     wrapped_vector();
     do_math();
+    
+    println!("------------  L  E  E  T  C  O  D  E  ------------");
+    let n = is_isomorphic("bbbaaaba".to_string(), "aaabbbba".to_string());
+    println!("{:?}", n);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

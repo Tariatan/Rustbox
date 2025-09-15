@@ -2,7 +2,10 @@
 
 use std::sync::{mpsc, mpsc::channel, mpsc::Sender, mpsc::Receiver, Arc, Mutex};
 use std::thread;
+use std::thread::sleep;
 use std::time::Duration;
+
+use rayon::prelude::*;
 
 pub fn thread_spawning() {
 
@@ -157,4 +160,29 @@ pub fn thread_pool() {
     
     p.end();
     println!("Done");
+}
+
+// Use external rayon crate to fill in the array
+pub fn rayon_parallel_vector_fill() {
+    let mut v = Vec::with_capacity(500);
+    
+    for i in 0..500 {
+        v.push(i);
+    }
+    
+    // par_iter splits the work into parallel executions
+    let v2: Vec<i32> = (&v).par_iter().map(|x| {
+        sleep(Duration::from_millis(100));
+        println!("{}", x);
+        x*x
+    }).collect();
+    
+    println!("{:?}", &v2[490..500]);
+
+    // par_iter in place
+    v.par_iter_mut().for_each(|x| {
+        sleep(Duration::from_millis(100));
+        println!("{}", *x);
+        *x *= *x
+    });
 }
