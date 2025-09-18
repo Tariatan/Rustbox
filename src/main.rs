@@ -265,30 +265,9 @@ fn main()
     do_math();
     
     println!("------------  L  E  E  T  C  O  D  E  ------------");
-    let n = is_isomorphic("bbbaaaba".to_string(), "aaabbbba".to_string());
+    let n = is_number("92e1740e91".to_string());
     println!("{:?}", n);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

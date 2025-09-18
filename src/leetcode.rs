@@ -235,6 +235,89 @@ pub fn is_isomorphic(s: String, t: String) -> bool {
     true
 }
 
+// "()" => true
+// "()[]{}" => true
+// "(]" => false
+// "([])" => true
+// "([)]" => false
+pub fn is_valid_parenthesis(s: String) -> bool {
+    let mut stack = Vec::new();
+
+    for c in s.chars() {
+        match c {
+            '(' | '[' | '{' => stack.push(c),
+            ')' => if stack.pop() != Some('(') {  return false },
+            ']' => if stack.pop() != Some('{') {  return false },
+            '}' => if stack.pop() != Some('{') {  return false },
+            _ => { return false },
+        }
+    }
+
+    stack.is_empty()
+}
+
+// valid numbers:
+// "2", "0089", "-0.1", "+3.14", "4.", "-.9", "2e10", "-90E3", "3e+7", "+6e-1", "53.5e93", "-123.456e789", "46.e3"
+// invalid numbers:
+// "abc", "1a", "1e", "e3", "99e2.5", "--6", "-+3", "95a54e53", ".", "+.", "-.E3", "92e1740e91", "4e+"
+//
+// Formally, a valid number is:
+// An integer number followed by an optional exponent.
+// A decimal number followed by an optional exponent.
+// An integer number is defined with an optional sign '-' or '+' followed by digits.
+// A decimal number is defined with an optional sign '-' or '+' followed by one of the following definitions:
+// Digits followed by a dot '.'.
+// Digits followed by a dot '.' followed by digits.
+// A dot '.' followed by digits.
+// An exponent is defined with an exponent notation 'e' or 'E' followed by an integer number.
+//
+// The digits are defined as one or more digits.
+pub fn is_number(s: String) -> bool {
+    let len = s.len();
+    let mut digit_found = false;
+    let mut dot_found = false;
+    let mut exp_found = false;
+    let mut prev = ' ';
+    for (i, c) in s.char_indices() {
+        match c {
+            c if c.is_ascii_digit() => { digit_found = true },
+            '+' | '-' => {
+                if (i == len -1) || (i != 0 && prev.to_ascii_lowercase() != 'e') { return false }
+            },
+            '.' => {
+                if dot_found || exp_found { return false } else { dot_found = true }
+            }
+            'e' | 'E' => {
+                if digit_found
+                    && !exp_found
+                    && (i + 1 < len)
+                    && (prev.is_digit(10) || dot_found) {
+                    exp_found = true
+                } else {
+                    return false
+                }
+            }
+            _ => { return false }
+        }
+
+        prev = c;
+    }
+
+    digit_found
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
