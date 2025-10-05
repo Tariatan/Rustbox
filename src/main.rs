@@ -36,6 +36,7 @@ mod binary_tree;
 mod tcp;
 mod leetcode;
 mod recursion;
+mod hints;
 
 use trait_impl::{Cat, Dog, Pet};
 use trait_impl::*;
