@@ -1,9 +1,11 @@
+#![allow(unused)]
+
+use std::collections::HashSet;
 use std::fmt::{Display, Formatter};
 use std::ops::Add;
 use std::slice;
 
 // Dereferencing raw pointers
-#[allow(unused)]
 pub fn dereferencing_raw_pointers() {
     let mut num = 5;
     let r1 = &num as *const i32;
@@ -16,7 +18,6 @@ pub fn dereferencing_raw_pointers() {
 }
 
 // Calling an unsafe function
-#[allow(unused)]
 fn calling_unsafe_function() {
     let mut v = vec![1, 2, 3, 4, 5];
     let r = &mut v[..];
@@ -24,7 +25,6 @@ fn calling_unsafe_function() {
     assert_eq!(a, &[1, 2, 3]);
     assert_eq!(b, &[4, 5, 6]);
 }
-#[allow(unused)]
 fn split_at_mut(values: &mut [i32], mid: usize) -> (&mut [i32], &mut [i32]) {
     let len = values.len();
     let ptr = values.as_mut_ptr();
@@ -36,7 +36,6 @@ fn split_at_mut(values: &mut [i32], mid: usize) -> (&mut [i32], &mut [i32]) {
         )
     }
 }
-#[allow(unused)]
 unsafe fn dangerous() {
     unsafe {
         if true {
@@ -50,7 +49,6 @@ unsafe extern "C" {
     fn abs(input: i32) -> i32;
 }
 
-#[allow(unused)]
 fn calling_extern_function() {
     unsafe {
         println!("Absolute value of -3 according to C: {}", abs(-3));
@@ -65,20 +63,16 @@ pub extern "C" fn call_from_c() {
 // Accessing or modifying a mutable static variable (global variables in Rust)
 static HELLO_WORLD: &str = "Hello, world!";
 
-#[allow(unused)]
 fn access_static() {
     println!("value is: {HELLO_WORLD}");
 }
 
-#[allow(unused)]
 static mut COUNTER: u32 = 0;
-#[allow(unused)]
 fn add_to_counter(inc: u32) {
     unsafe {
         COUNTER += inc;
     }
 }
-#[allow(unused)]
 fn read_write_static() {
     add_to_counter(3);
     /*unsafe*/ {
@@ -87,7 +81,6 @@ fn read_write_static() {
 }
 
 // Unsafe Traits
-#[allow(unused)]
 unsafe trait Foo {
     // methods go here
 }
@@ -98,13 +91,11 @@ unsafe impl Foo for i32 {
 
 // Advanced Traits
 // Associated types
-#[allow(unused)]
 pub trait Iterator {
     type Item; // Associated type
     fn next(&mut self) -> Option<Self::Item>;
 }
 
-#[allow(unused)]
 struct Counter {
     items: Vec<u32>,
     index: usize,
@@ -132,7 +123,6 @@ impl Add for Point {
     }
 }
 
-#[allow(unused)]
 fn operator_overloading() {
     let a = Point { x: 1, y: 2 };
     let b = Point { x: 3, y: 4 };
@@ -228,9 +218,7 @@ pub fn wrapped_vector() {
 }
 
 // Type synonyms
-#[allow(unused)]
 type Kilometers = i32;
-#[allow(unused)]
 pub fn type_alias() {
     let x: i32 = 5;
     let y: Kilometers = 5;
@@ -245,7 +233,6 @@ pub fn type_alias() {
 }
 
 // Never type '!' that never returns
-#[allow(unused)]
 // 'Diverging function' - The function bar returns never, since panic! terminates the program
 fn bar() -> ! { 
     panic!("foo")
@@ -284,9 +271,29 @@ macro_rules! create_vec {
     };
 }
 
-#[allow(unused)]
 pub fn macro_rules() {
     let v: Vec<i32> = create_vec![1, 2, 3];
 }
 
+macro_rules! hello_x {
+    ("Charlie") => { println!("Hi Charlie") };
+    ($s:ident) => { println!("Hello {}", $s) };
+    ($s:literal) => { println!("Hello, {}", $s) };
+    // expr catches literal and ident patterns
+    ($s:expr) => { println!("Hello, {}", $s) };
+}
+
+pub fn greet() {
+    hello_x!("Charlie");
+    hello_x!("Bob");
+    hello_x!(5);
+}
+
+macro_rules! set {
+    ( $( $s:expr ),* ) => { HashSet::from([$($s),*]) }
+}
+
+fn test_set() {
+    let a = set![1, 2, 3];
+}
 // Procedural macros require own crate

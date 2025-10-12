@@ -4,12 +4,14 @@ use std::cell::RefCell;
 use std::fmt::{Display, Formatter};
 use std::ops::Deref;
 use std::rc::{Rc, Weak};
-
+use std::sync::Arc;
+use std::thread::JoinHandle;
 // Reasons to choose Box<T>, Rc<T>, or RefCell<T>:
 // - Rc<T> enables multiple owners of the same data;
 //   Box<T> and RefCell<T> have single owners.
 // - Box<T> allows immutable or mutable borrows checked at compile time;
 //   Rc<T> allows only immutable borrows checked at compile time;
+//   Arc<T> Atomic reference counter is used in concurrent environment.
 //   RefCell<T> allows immutable or mutable borrows checked at runtime.
 // - Because RefCell<T> allows mutable borrows checked at runtime,
 //   you can mutate the value inside the RefCell<T> even when the RefCell<T> is immutable.
@@ -287,3 +289,59 @@ pub fn weak_reference() {
     println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
     println!("leaf strong = {}, weak = {}", Rc::strong_count(&leaf), Rc::weak_count(&leaf));
 }
+
+trait Vehicle {
+    fn drive(&self);
+}
+struct Truck {
+    capacity: i32,
+}
+
+impl Vehicle for Truck {
+    fn drive(&self) { 
+        println!("Drive Truck");
+    }
+}
+// A variable to a trait requires 'dyn' keyword
+fn boxed_dyn_trait() {
+    let t: Box<dyn Vehicle>;
+    t = Box::new(Truck{ capacity: 5 });
+    t.drive();
+}
+
+fn truck_facilities() {
+    let (
+        truck_a,
+        truck_b,
+        truck_c,    
+    ) = (
+        Arc::new(Truck { capacity: 1 }),
+        Arc::new(Truck { capacity: 2 }),
+        Arc::new(Truck { capacity: 3 }),
+    );
+    
+    let thread = std::thread::spawn(move || -> (Vec<Arc<Truck>>, Vec<Arc<Truck>>) {
+        let facility_one: Vec<Arc<Truck>> = vec![Arc::clone(&truck_a), Arc::clone(&truck_b)];
+        let facility_two: Vec<Arc<Truck>> = vec![Arc::clone(&truck_b), Arc::clone(&truck_c)];
+        (facility_one, facility_two)
+    });
+    
+    let (facility_one, facility_two) = thread.join().unwrap();
+    
+    let truck_b: Arc<Truck> = Arc::clone(&facility_one[1]);
+    println!("Truck b strong count: {:?}", Arc::strong_count(&truck_b));
+    std::mem::drop(facility_two);
+    println!("Truck b strong count: {:?}", Arc::strong_count(&truck_b));
+}
+
+
+
+
+
+
+
+
+
+
+
+

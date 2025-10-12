@@ -319,3 +319,33 @@ pub fn exchanger() {
     let ex = Ex {account_id:30, cad:0.7, gbp:1.3};
     let (ft, tt) = ex.exchange(20, 40, GBP(200));
 }
+
+// Supertraits
+trait LandCapable {
+    fn drive(&self) { println!("Drive"); }
+}
+trait WaterCapable {
+    fn float(&self) { println!("Float"); }
+}
+trait Amphibious : LandCapable + WaterCapable{}
+struct Sedan;
+impl LandCapable for Sedan {}
+struct SUV;
+impl LandCapable for SUV {}
+
+struct Hovercraft;
+impl Amphibious for Hovercraft {}
+impl LandCapable for Hovercraft {}
+impl WaterCapable for Hovercraft {}
+
+fn road_trip(vehicle: &impl LandCapable) {
+    vehicle.drive();
+}
+fn traverse_frozen_lake(vehicle: &impl Amphibious) {
+    vehicle.drive();
+    vehicle.float();
+}
+fn trip() {
+    let hc = Hovercraft;
+    traverse_frozen_lake(&hc);
+}

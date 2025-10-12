@@ -52,6 +52,27 @@ pub fn hash_map() {
     }
 
     dbg!(page_counts);
+    
+    let stuff: Vec<String> = vec!["Gold".into(), "Silver".into(), "Diamond".into(), "Coal".into(), "Rock".into()];
+    let organized: HashMap<String, Vec<String>> = 
+    stuff
+        .into_iter()
+        .fold(HashMap::new(), |mut acc, item| {
+            if item == "Coal" || item == "Rock" {
+                acc.entry("Junk".into()).or_insert_with(Vec::new).push(item);
+            } else { 
+                acc.entry("Treasure".into())
+                    .or_insert_with(Vec::new)
+                    .push(item);
+            }
+            acc
+        });
+
+    dbg!(organized);
+    /*
+        "Junk" => ["Coal", "Rock"],
+        "Treasure => ["Gold", "Silver", "Diamond"]
+    */
 }
 
 

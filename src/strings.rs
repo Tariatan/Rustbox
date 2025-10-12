@@ -41,3 +41,12 @@ pub fn strings() {
         println!("{}", word);
     }
 }
+
+pub fn surprise_inbound() {
+    let s = String::from("SuRPRISE INbOUND");
+    for c in s.chars()
+        .filter(|c| c.is_lowercase())
+        .flat_map(|c| c.to_uppercase()) {
+        println!("{}", c);
+    }
+}

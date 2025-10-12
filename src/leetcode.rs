@@ -2,6 +2,7 @@
 
 use std::borrow::Cow::Borrowed;
 use std::collections::HashMap;
+use std::hash::Hash;
 use std::io::Bytes;
 use crate::loops::for_loop;
 
@@ -306,9 +307,28 @@ pub fn is_number(s: String) -> bool {
     digit_found
 }
 
+pub fn count_words(text: &str) -> HashMap<&str, u32> {
+    let mut counts = HashMap::new();
+    for word in text.split_whitespace() {
+        let word = word.trim_matches(|c| {
+            !char::is_alphabetic(c)
+        });
+        let count = counts.entry(word).or_default();
+        *count += 1;
+    }
+    counts
+}
 
-
-
+pub fn fizzbuzz() {
+    for i in 1..=100 {
+        match (i % 3, i % 5) {
+            (0, 0) => println!("fizzbuzz"),
+            (0, _) => println!("fizz"),
+            (_, 0) => println!("buzz"),
+            (_, _) => println!("{}", i),
+        }
+    }
+}
 
 
 

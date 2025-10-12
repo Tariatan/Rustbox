@@ -1,5 +1,6 @@
 #![allow(unused)]
 
+use std::io::Error;
 use std::sync::{mpsc, mpsc::channel, mpsc::Sender, mpsc::Receiver, Arc, Mutex};
 use std::thread;
 use std::thread::sleep;
@@ -186,3 +187,19 @@ pub fn rayon_parallel_vector_fill() {
         *x *= *x
     });
 }
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+

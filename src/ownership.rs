@@ -1,3 +1,4 @@
+#![allow(unused)]
 
 pub fn ownership_with_string() {
     let mut s = String::from("Hello");
@@ -91,3 +92,35 @@ fn dangle() -> &String {
     &s
 }
 */
+
+#[derive(Debug, Clone, Copy)]
+struct SomeStruct {
+    number: i32,
+}
+
+fn print_some_struct(some_struct: SomeStruct) {
+    println!("{}", some_struct.number);
+}
+
+fn print_some_struct_preferred(some_struct: &SomeStruct) {
+    println!("{}", some_struct.number);
+}
+
+fn overcome_ownership_error() {
+    let some_struct: SomeStruct = SomeStruct { number: 1 };
+    print_some_struct(some_struct.clone());
+    print_some_struct(some_struct);
+    // Copied implicitly by Copy trait 
+    print_some_struct(some_struct);
+
+    // Prefer passing by immutable reference
+    print_some_struct_preferred(&some_struct);
+}
+
+
+
+
+
+
+
+

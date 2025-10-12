@@ -4,7 +4,7 @@ use std::time::Duration;
 mod calculator;
 mod method_receiver_syntax;
 use method_receiver_syntax::*; // The Glob Operator
-mod trait_impl;
+mod traits;
 mod loops;
 mod ownership;
 mod slices;
@@ -38,8 +38,8 @@ mod leetcode;
 mod recursion;
 mod hints;
 
-use trait_impl::{Cat, Dog, Pet};
-use trait_impl::*;
+use traits::{Cat, Dog, Pet};
+use traits::*;
 use oop::{IncapsulatedCollection};
 use crate::closures::choose;
 use crate::enumerations::{IpAddress, Message};
@@ -47,6 +47,7 @@ use crate::file_read::{list_current_directory, read_file};
 use crate::leetcode::*;
 use crate::mini_grep::mini_grep;
 use crate::oop::*;
+use crate::strings::surprise_inbound;
 use crate::structures::Rectangle;
 use crate::unsafe_superpowers::*;
 use crate::vector_array::vector_array;
@@ -107,6 +108,8 @@ fn main()
     let s_to_hex = String::from("A");
     println!("{s_to_hex}: {:?}", hex_or_die_trying(Some(s_to_hex.clone())));
 
+    surprise_inbound();
+    
     use calculator::Expression;
     use calculator::Operation;
     // (5 * 3) + (10 / 2)

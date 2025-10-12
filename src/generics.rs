@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 pub fn duplicate<T>(a: T) -> (T, T)
 where
     T: Clone,
@@ -51,4 +53,44 @@ impl Point<f32>  {
     fn distance_from_origin(&self) -> f32 {
         (self.x.powi(2) + self.y.powi(2)).sqrt()
     }
+}
+
+trait Shape {
+    fn area(&self) -> f64;
+}
+
+struct Rectangle {
+    width: f64,
+    height: f64,
+}
+impl Shape for Rectangle {
+    fn area(&self) -> f64 {
+        self.width * self.height
+    }
+}
+
+struct Circle {
+    radius: f64,
+}
+impl Shape for Circle {
+    fn area(&self) -> f64 {
+        std::f64::consts::PI * (self.radius * self.radius)
+    }
+}
+fn print_area<T: Shape>(shape: &T) {
+    println!("Area: {}", shape.area());
+}
+
+fn collect_shapes() {
+    let rectangle = Rectangle {
+        width: 30f64,
+        height: 50f64,
+    };
+    print_area(&rectangle);
+    
+    let circle = Circle {
+        radius: 30f64,
+    };
+    print_area(&circle);
+    let _shapes: Vec<Box<dyn Shape>> = vec![Box::new(rectangle), Box::new(circle)];
 }
