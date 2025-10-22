@@ -105,7 +105,6 @@ impl std::ops::Add for Point {
 }
 
 // Traits as parameters
-#[allow(unused)]
 // Accepts any type that implements Pet
 pub fn walk(pet: &impl Pet) {
     println!("Hello, who are you? {}", pet.talk());
@@ -114,25 +113,21 @@ pub fn walk(pet: &impl Pet) {
 // The above 'impl Trait' is a syntax sugar for 'trait bounds'
 
 // Trait bounds
-#[allow(unused)]
 pub fn mate<T: Pet>(pet1: &T, pet2: &T) {
     println!("Hello, we are {} and {}", pet1.name(), pet2.name());
 }
 
 // Specifying multiple trait bounds
-#[allow(unused)]
 pub fn real_cat(kitty: &(impl Animal + Pet)) {
     println!("Hello, I am {}, I have {} legs", kitty.name(), kitty.leg_count());
 }
 
 // Specifying multiple trait bounds with generic types
-#[allow(unused)]
 pub fn real_dog<T: Animal + Pet>(doggy: &T) {
     println!("Hello, I am {}, I have {} legs", doggy.name(), doggy.leg_count());
 }
 
 // Specifying 'where clauses'
-#[allow(unused)]
 pub fn unreal_cat<T, U>(t: &T, u: &U) -> i32
     where T: Animal + Pet,
           U: Animal
@@ -141,7 +136,6 @@ pub fn unreal_cat<T, U>(t: &T, u: &U) -> i32
 }
 
 // Returning types that implement traits without naming the  concrete type
-#[allow(unused)]
 pub fn adopt() -> impl Pet {
     Cat {
         name: "Tom".to_string(),
@@ -155,14 +149,13 @@ struct Pair<T>  {
 }
 
 impl <T> Pair<T> {
-    #[allow(unused)]
+    
     fn new(x: T, y: T) -> Self {
         Self { x, y }
     }
 }
 
 // Conditionally implementing methods on a generic type depending on trait bounds
-#[allow(unused)]
 impl<T: Display + PartialOrd> Pair<T> {
     fn cmp_display(&self) {
         if self.x >= self.y {
@@ -225,7 +218,7 @@ impl FromStr for GBP {
     }
 }
 
-#[allow(unused)]
+
 pub fn converter() {
     let g = GBP(200);
     let u = g.to_usd();
@@ -304,7 +297,7 @@ impl FromUSDv<CAD> for Ex {
         CAD((g/self.cad) as i32)
     }
 }
-#[allow(unused)]
+
 pub fn exchanger() {
     let g = GBP(200);
     let ex = Ex{ account_id: 0, cad:0.7, gbp:1.3};
@@ -321,13 +314,13 @@ pub fn exchanger() {
 }
 
 // Supertraits
+trait Amphibious : LandCapable + WaterCapable{}
 trait LandCapable {
     fn drive(&self) { println!("Drive"); }
 }
 trait WaterCapable {
     fn float(&self) { println!("Float"); }
 }
-trait Amphibious : LandCapable + WaterCapable{}
 struct Sedan;
 impl LandCapable for Sedan {}
 struct SUV;
