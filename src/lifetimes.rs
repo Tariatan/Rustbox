@@ -59,8 +59,9 @@ impl<'a> ImportantExcerpt<'a> {
         3
     }
     
-    fn announce_and_return_part(&self, announcement: &str) -> &str {
+    fn announce_and_return_part(&mut self, announcement: &'a str) -> &str {
         println!("Attention please: {}", announcement);
+        self.part = announcement;
         self.part
     }
 }
