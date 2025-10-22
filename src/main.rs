@@ -1,5 +1,6 @@
 use std::net::IpAddr;
 use std::time::Duration;
+use rand::{rng, Rng};
 
 mod calculator;
 mod method_receiver_syntax;
@@ -81,7 +82,7 @@ fn hex_or_die_trying(maybe_string: Option<String>) -> Result<u32, String>
 
 fn main()
 {
-    let p = Point(17, 23);
+    let p = Point(rng().random_range(10..20), 23);
     println!("({}, {})", p.0, p.1);
     println!("{}", size_of::<usize>());
     println!("{}", size_of::<i32>());
