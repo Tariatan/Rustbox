@@ -1,11 +1,12 @@
 #![allow(unused)]
 
 use std::io::Error;
-use std::sync::{mpsc, mpsc::channel, mpsc::Sender, mpsc::Receiver, Arc, Mutex};
+use std::ops::DerefMut;
+use std::sync::{mpsc, mpsc::channel, mpsc::Sender, mpsc::Receiver, Arc, Mutex, MutexGuard};
 use std::thread;
 use std::thread::sleep;
 use std::time::Duration;
-
+use rand::distr::uniform::SampleBorrow;
 use rayon::prelude::*;
 
 pub fn thread_spawning() {
@@ -102,6 +103,13 @@ pub fn mutexes() {
         handle.join().unwrap();
     }
     println!("Result: {}", *counter.lock().unwrap());
+}
+
+// Inner mutability
+fn mutate_counter(counter: &Mutex<i32>) {
+    let mut lock: MutexGuard<'_, i32> = counter.lock().unwrap();
+    let reference: &mut i32 = lock.deref_mut();
+    *reference += 1;
 }
 
 // Thread pool
